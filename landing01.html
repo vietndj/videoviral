@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo: Cuộc Chiến Không Chân - Geometric vs Humanist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        .font-geometric { font-family: 'Space Grotesk', sans-serif; }
+        .font-humanist { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0a0a; color: #f3f4f6; overflow-x: hidden; }
+        .art-geo-circle { width: 200px; height: 200px; border: 4px solid #06b6d4; border-radius: 50%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(6, 182, 212, 0.1) 10px, rgba(6, 182, 212, 0.1) 20px); }
+        .art-geo-square { width: 150px; height: 150px; background-color: rgba(30, 41, 59, 0.8); border: 2px solid #38bdf8; box-shadow: 20px 20px 0px 0px rgba(6, 182, 212, 0.3); }
+        .art-geo-triangle { width: 0; height: 0; border-left: 100px solid transparent; border-right: 100px solid transparent; border-bottom: 173px solid rgba(71, 85, 105, 0.5); }
+        .art-geo-grid { background-image: linear-gradient(rgba(6, 182, 212, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.2) 1px, transparent 1px); background-size: 20px 20px; }
+        .art-hum-blob { width: 250px; height: 250px; background: linear-gradient(135deg, #d4af37 0%, #facc15 100%); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; opacity: 0.8; box-shadow: inset -20px -20px 40px rgba(0,0,0,0.2); }
+        .art-hum-oval { width: 160px; height: 220px; border: 6px solid #fbbf24; border-radius: 50%; transform: rotate(-15deg); }
+        .art-hum-brush { width: 300px; height: 60px; background: #b45309; border-radius: 100px 20px 100px 30px / 50px 10px 40px 20px; transform: rotate(-5deg); opacity: 0.6; }
+        @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        @keyframes blob { 0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; } 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } }
+        .animate-blob { animation: blob 8s ease-in-out infinite; }
+        .css-magnifier { width: 100px; height: 100px; border: 8px solid #facc15; border-radius: 50%; position: relative; }
+        .css-magnifier::after { content: ''; position: absolute; bottom: -30px; right: -30px; width: 40px; height: 12px; background-color: #facc15; transform: rotate(45deg); border-radius: 6px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 flex">
+            <div class="w-1/2 h-full bg-slate-900 art-geo-grid relative overflow-hidden">
+                <div class="absolute top-20 left-10 art-geo-circle animate-float opacity-30"></div>
+                <div class="absolute bottom-20 right-10 art-geo-square opacity-40"></div>
+                <div class="absolute top-1/2 right-10 transform -translate-y-1/2 text-[300px] leading-none text-cyan-500 opacity-10 font-geometric font-bold tracking-tighter">O</div>
+            </div>
+            <div class="w-1/2 h-full bg-[#1a1512] relative overflow-hidden">
+                <div class="absolute top-32 right-20 art-hum-blob animate-blob opacity-30"></div>
+                <div class="absolute bottom-32 left-10 art-hum-oval opacity-30"></div>
+                <div class="absolute top-1/2 left-10 transform -translate-y-1/2 text-[300px] leading-none text-amber-500 opacity-10 font-humanist italic">O</div>
+            </div>
+        </div>
+        <div class="absolute inset-0 bg-black/60 md:bg-transparent md:bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+        <div class="relative z-10 container mx-auto px-6 text-center max-w-4xl pt-20">
+            <span class="inline-block py-1 px-3 rounded-full bg-slate-800 border border-slate-700 text-cyan-400 text-sm font-semibold tracking-wider mb-6 uppercase shadow-lg">
+                Báo cáo giải mã Tâm lý học Typography
+            </span>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                CUỘC CHIẾN <span class="text-cyan-400 font-geometric tracking-tighter">"KHÔNG CHÂN"</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl font-light text-gray-300 mb-8 font-humanist italic">
+                Khi Nào Chọn Hình Học Lạnh Lùng, Khi Nào Cần Nét Cọ Con Người?
+            </h2>
+            <p class="text-lg text-gray-400 mb-10 leading-relaxed max-w-3xl mx-auto">
+                Bạn nghĩ cứ dùng font không chân (Sans Serif) là "Hiện đại"? Đây là <strong class="text-amber-400">sai lầm chết người của 90% Designer</strong>. Khám phá cách định vị thương hiệu thông qua 2 nhánh font đối lập!
+            </p>
+            <a href="#download" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-gray-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg hover:from-amber-300 hover:to-amber-400 transition-all shadow-[0_0_30px_rgba(251,191,36,0.3)] hover:scale-105 uppercase tracking-wide">
+                👉 Tải Xuống Báo Cáo PDF (Miễn Phí)
+            </a>
+        </div>
+    </header>
+
+    <section id="download" class="py-24 bg-zinc-950 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-amber-500/10 to-transparent rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-6 max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2">
+                <div class="mb-8 flex justify-center md:justify-start">
+                    <div class="css-magnifier transform scale-75 md:scale-100 origin-left">
+                        <div class="absolute inset-0 flex items-center justify-center font-bold text-4xl text-white font-geometric">A</div>
+                    </div>
+                </div>
+                <h2 class="text-4xl font-bold mb-6">Bạn sẽ tìm thấy gì trong Báo cáo này?</h2>
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-cyan-900/50 text-cyan-400 flex items-center justify-center flex-shrink-0 mt-1">✓</div>
+                        <div>
+                            <strong class="text-white text-lg">Dấu hiệu nhận biết 3s:</strong>
+                            <p class="text-gray-400 mt-1">Cách soi trục chữ 'O' và nét 'a'.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-cyan-900/50 text-cyan-400 flex items-center justify-center flex-shrink-0 mt-1">✓</div>
+                        <div>
+                            <strong class="text-white text-lg">Công thức định vị:</strong>
+                            <p class="text-gray-400 mt-1">Sự vô hồn máy móc vs Hơi thở con người.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w-full md:w-1/2">
+                <div class="bg-gray-900 p-8 md:p-10 rounded-2xl border border-gray-700 shadow-2xl relative">
+                    <div class="absolute -top-4 -right-4 bg-amber-500 text-gray-900 font-bold px-4 py-1 rounded-full text-sm transform rotate-12 shadow-lg">Miễn phí 100%</div>
+                    
+                    <h3 class="text-2xl font-bold mb-2">Nhận Tài Liệu Ngay</h3>
+                    <p class="text-gray-400 mb-8">Hệ thống sẽ gửi tài liệu tự động qua Email/Zalo của bạn.</p>
+                    
+                    <form id="lead-form" class="space-y-4">
+                        <div>
+                            <input type="text" id="f-name" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-white" placeholder="Nhập họ và tên của bạn">
+                        </div>
+                        <div>
+                            <input type="tel" id="f-phone" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-white" placeholder="Số điện thoại (có Zalo)">
+                        </div>
+                        <div>
+                            <input type="email" id="f-email" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-white" placeholder="Nhập email nhận thông tin">
+                        </div>
+                        <button type="submit" id="btn-submit" class="w-full py-4 mt-4 text-lg font-bold text-gray-900 bg-amber-400 rounded-lg hover:bg-amber-300 transition-colors uppercase tracking-wider flex justify-center items-center">
+                            <span>Đăng Ký Ngay</span>
+                        </button>
+                    </form>
+                    <p id="form-msg" class="text-sm text-center mt-4 hidden"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-8 border-t border-gray-900 text-center">
+        <p class="text-gray-600 text-sm">© Báo Cáo Typography Masterclass - Phân tích bởi Chuyên gia.</p>
+    </footer>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = "ĐIỀN_LINK_WEB_APP_GOOGLE_CỦA_BẠN_VÀO_ĐÂY";
+
+        document.getElementById('lead-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-submit');
+            const msg = document.getElementById('form-msg');
+            const name = document.getElementById('f-name').value;
+            const phone = document.getElementById('f-phone').value;
+            const email = document.getElementById('f-email').value;
+
+            // Đổi trạng thái nút
+            btn.innerHTML = 'Đang xử lý...';
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            msg.className = 'text-sm text-center mt-4 hidden';
+
+            try {
+                // Fetch data gửi lên Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    // Dùng text/plain để vượt qua rào cản CORS của trình duyệt khi fetch tới Google
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ name: name, phone: phone, email: email })
+                });
+
+                if (response.ok) {
+                    msg.innerHTML = '✅ Đăng ký thành công! Vui lòng kiểm tra Email.';
+                    msg.className = 'text-sm text-center mt-4 text-green-400 font-bold block';
+                    this.reset(); // Xóa trắng form
+                } else {
+                    throw new Error('Network error');
+                }
+            } catch (error) {
+                msg.innerHTML = '❌ Lỗi kết nối mạng, vui lòng thử lại sau.';
+                msg.className = 'text-sm text-center mt-4 text-red-400 font-bold block';
+            } finally {
+                // Khôi phục nút
+                btn.innerHTML = 'Đăng Ký Ngay';
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }
+        });
+    </script>
+</body>
+</html>
