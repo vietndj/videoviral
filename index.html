@@ -3,123 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Báo cáo: Cuộc Chiến Không Chân - Geometric vs Humanist</title>
+    <title>Sandbox: AI Page Gen & Telegram Alert Tester</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .font-geometric { font-family: 'Space Grotesk', sans-serif; }
-        .font-humanist { font-family: 'Playfair Display', serif; }
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0a0a; color: #f3f4f6; overflow-x: hidden; }
-        .art-geo-circle { width: 200px; height: 200px; border: 4px solid #06b6d4; border-radius: 50%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(6, 182, 212, 0.1) 10px, rgba(6, 182, 212, 0.1) 20px); }
-        .art-geo-square { width: 150px; height: 150px; background-color: rgba(30, 41, 59, 0.8); border: 2px solid #38bdf8; box-shadow: 20px 20px 0px 0px rgba(6, 182, 212, 0.3); }
-        .art-geo-triangle { width: 0; height: 0; border-left: 100px solid transparent; border-right: 100px solid transparent; border-bottom: 173px solid rgba(71, 85, 105, 0.5); }
-        .art-geo-grid { background-image: linear-gradient(rgba(6, 182, 212, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.2) 1px, transparent 1px); background-size: 20px 20px; }
-        .art-hum-blob { width: 250px; height: 250px; background: linear-gradient(135deg, #d4af37 0%, #facc15 100%); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; opacity: 0.8; box-shadow: inset -20px -20px 40px rgba(0,0,0,0.2); }
-        .art-hum-oval { width: 160px; height: 220px; border: 6px solid #fbbf24; border-radius: 50%; transform: rotate(-15deg); }
-        .art-hum-brush { width: 300px; height: 60px; background: #b45309; border-radius: 100px 20px 100px 30px / 50px 10px 40px 20px; transform: rotate(-5deg); opacity: 0.6; }
-        @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } 100% { transform: translateY(0px) rotate(0deg); } }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        @keyframes blob { 0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; } 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } }
-        .animate-blob { animation: blob 8s ease-in-out infinite; }
-        .css-magnifier { width: 100px; height: 100px; border: 8px solid #facc15; border-radius: 50%; position: relative; }
-        .css-magnifier::after { content: ''; position: absolute; bottom: -30px; right: -30px; width: 40px; height: 12px; background-color: #facc15; transform: rotate(45deg); border-radius: 6px; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.15);
+        }
+        .glow-indigo {
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.2);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.05); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-cyan-500 selection:text-white">
+<body class="antialiased bg-grid min-h-screen flex flex-col justify-between relative selection:bg-indigo-500 selection:text-white">
 
-    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 flex">
-            <div class="w-1/2 h-full bg-slate-900 art-geo-grid relative overflow-hidden">
-                <div class="absolute top-20 left-10 art-geo-circle animate-float opacity-30"></div>
-                <div class="absolute bottom-20 right-10 art-geo-square opacity-40"></div>
-                <div class="absolute top-1/2 right-10 transform -translate-y-1/2 text-[300px] leading-none text-cyan-500 opacity-10 font-geometric font-bold tracking-tighter">O</div>
+    <!-- Decorative Glow Blobs -->
+    <div class="absolute top-[-20%] left-[-10%] w-[600px] height-[600px] rounded-full bg-indigo-600/10 blur-[150px] animate-pulse-slow pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[500px] height-[500px] rounded-full bg-cyan-600/10 blur-[120px] animate-pulse-slow pointer-events-none"></div>
+
+    <!-- Header / Navbar -->
+    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between border-b border-slate-900 z-10 relative">
+        <div class="flex items-center gap-3">
+            <!-- Icon -->
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
             </div>
-            <div class="w-1/2 h-full bg-[#1a1512] relative overflow-hidden">
-                <div class="absolute top-32 right-20 art-hum-blob animate-blob opacity-30"></div>
-                <div class="absolute bottom-32 left-10 art-hum-oval opacity-30"></div>
-                <div class="absolute top-1/2 left-10 transform -translate-y-1/2 text-[300px] leading-none text-amber-500 opacity-10 font-humanist italic">O</div>
+            <div>
+                <div class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">AI Sandbox</div>
+                <div class="text-[10px] text-cyan-400 code-font uppercase tracking-widest">fedu.vn · active</div>
             </div>
         </div>
-        <div class="absolute inset-0 bg-black/60 md:bg-transparent md:bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-
-        <div class="relative z-10 container mx-auto px-6 text-center max-w-4xl pt-20">
-            <span class="inline-block py-1 px-3 rounded-full bg-slate-800 border border-slate-700 text-cyan-400 text-sm font-semibold tracking-wider mb-6 uppercase shadow-lg">
-                Báo cáo giải mã Tâm lý học Typography
+        <div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                Telegram Bot Online
             </span>
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                CUỘC CHIẾN <span class="text-cyan-400 font-geometric tracking-tighter">"KHÔNG CHÂN"</span>
-            </h1>
-            <h2 class="text-2xl md:text-3xl font-light text-gray-300 mb-8 font-humanist italic">
-                Khi Nào Chọn Hình Học Lạnh Lùng, Khi Nào Cần Nét Cọ Con Người?
-            </h2>
-            <p class="text-lg text-gray-400 mb-10 leading-relaxed max-w-3xl mx-auto">
-                Bạn nghĩ cứ dùng font không chân (Sans Serif) là "Hiện đại"? Đây là <strong class="text-amber-400">sai lầm chết người của 90% Designer</strong>. Khám phá cách định vị thương hiệu thông qua 2 nhánh font đối lập!
-            </p>
-            <a href="#download" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-gray-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg hover:from-amber-300 hover:to-amber-400 transition-all shadow-[0_0_30px_rgba(251,191,36,0.3)] hover:scale-105 uppercase tracking-wide">
-                👉 Tải Xuống Báo Cáo PDF (Miễn Phí)
-            </a>
         </div>
     </header>
 
-    <section id="download" class="py-24 bg-zinc-950 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-amber-500/10 to-transparent rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
+    <!-- Main Container -->
+    <main class="w-full max-w-5xl mx-auto px-6 py-12 z-10 relative flex-1 flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Info Panel -->
+            <div class="lg:col-span-7 space-y-8">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider">
+                        🤖 AI Agent Sandbox
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+                        Hệ Thống Thử Nghiệm <br>
+                        <span class="bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">AI Gen Page & Telegram Alert</span>
+                    </h1>
+                    <p class="text-slate-400 text-base leading-relaxed max-w-xl">
+                        Đây là trang đích môi trường thử nghiệm (sandbox) được dựng tự động hoàn toàn bằng AI để kiểm thử tốc độ sinh trang và kết nối luồng webhook thông báo tức thì về Telegram khi có tương tác người dùng.
+                    </p>
+                </div>
 
-        <div class="container mx-auto px-6 max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-16">
-            <div class="w-full md:w-1/2">
-                <div class="mb-8 flex justify-center md:justify-start">
-                    <div class="css-magnifier transform scale-75 md:scale-100 origin-left">
-                        <div class="absolute inset-0 flex items-center justify-center font-bold text-4xl text-white font-geometric">A</div>
+                <!-- Process Steps Cards -->
+                <div class="space-y-4 max-w-lg">
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-900/30 border border-slate-900/80 hover:border-slate-800 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center font-bold code-font shrink-0 mt-0.5">01</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-200">Sinh trang bằng AI</h3>
+                            <p class="text-xs text-slate-400 mt-1">Toàn bộ layout, phong cách tối giản cyberpunk, logic form và code được Agent tự động tối ưu hóa và xuất bản lên hệ thống Cloud.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-900/30 border border-slate-900/80 hover:border-slate-800 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center font-bold code-font shrink-0 mt-0.5">02</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-200">Gửi Tin Nhắn Telegram Tức Thì</h3>
+                            <p class="text-xs text-slate-400 mt-1">Form bên cạnh đóng vai trò nguồn kích hoạt. Khi ấn gửi, dữ liệu được truyền thẳng qua webhook để chuyển đổi thành thông báo đẩy (push message) tức thì tới bot admin.</p>
+                        </div>
                     </div>
                 </div>
-                <h2 class="text-4xl font-bold mb-6">Bạn sẽ tìm thấy gì trong Báo cáo này?</h2>
-                <ul class="space-y-6">
-                    <li class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-cyan-900/50 text-cyan-400 flex items-center justify-center flex-shrink-0 mt-1">✓</div>
-                        <div>
-                            <strong class="text-white text-lg">Dấu hiệu nhận biết 3s:</strong>
-                            <p class="text-gray-400 mt-1">Cách soi trục chữ 'O' và nét 'a'.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-cyan-900/50 text-cyan-400 flex items-center justify-center flex-shrink-0 mt-1">✓</div>
-                        <div>
-                            <strong class="text-white text-lg">Công thức định vị:</strong>
-                            <p class="text-gray-400 mt-1">Sự vô hồn máy móc vs Hơi thở con người.</p>
-                        </div>
-                    </li>
-                </ul>
             </div>
 
-            <div class="w-full md:w-1/2">
-                <div class="bg-gray-900 p-8 md:p-10 rounded-2xl border border-gray-700 shadow-2xl relative">
-                    <div class="absolute -top-4 -right-4 bg-amber-500 text-gray-900 font-bold px-4 py-1 rounded-full text-sm transform rotate-12 shadow-lg">Miễn phí 100%</div>
+            <!-- Right Form Panel -->
+            <div class="lg:col-span-5">
+                <div class="bg-slate-900/50 backdrop-blur-xl border border-slate-800/80 p-8 rounded-2xl glow-indigo relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-indigo-500/10 to-transparent rounded-bl-full pointer-events-none"></div>
                     
-                    <h3 class="text-2xl font-bold mb-2">Nhận Tài Liệu Ngay</h3>
-                    <p class="text-gray-400 mb-8">Hệ thống sẽ gửi tài liệu tự động qua Email/Zalo của bạn.</p>
+                    <h2 class="text-xl font-bold mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">Gửi Tin Nhắn Thử Nghiệm</h2>
+                    <p class="text-xs text-slate-400 mb-6">Nhập thông tin bên dưới để test luồng nhận alert Telegram qua webhook của bạn.</p>
                     
                     <form id="lead-form" class="space-y-4">
                         <div>
-                            <input type="text" id="f-name" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-white" placeholder="Nhập họ và tên của bạn">
+                            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 code-font">Tên Người Gửi (Name)</label>
+                            <input type="text" id="f-name" required class="w-full px-4 py-3 bg-slate-950/70 border border-slate-800 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 rounded-xl outline-none text-sm text-white transition-all placeholder:text-slate-600" placeholder="Ví dụ: Admin Test">
                         </div>
                         <div>
-                            <input type="tel" id="f-phone" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-white" placeholder="Số điện thoại (có Zalo)">
+                            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 code-font">Số Điện Thoại (Phone)</label>
+                            <input type="tel" id="f-phone" required class="w-full px-4 py-3 bg-slate-950/70 border border-slate-800 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 rounded-xl outline-none text-sm text-white transition-all placeholder:text-slate-600" placeholder="Ví dụ: 0987654321">
                         </div>
                         <div>
-                            <input type="email" id="f-email" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-cyan-500 text-white" placeholder="Nhập email nhận thông tin">
+                            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 code-font">Tin Nhắn Test (Message)</label>
+                            <textarea id="f-email" required rows="3" class="w-full px-4 py-3 bg-slate-950/70 border border-slate-800 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 rounded-xl outline-none text-sm text-white transition-all placeholder:text-slate-600 resize-none" placeholder="Nội dung kiểm tra gửi Telegram..."></textarea>
                         </div>
-                        <button type="submit" id="btn-submit" class="w-full py-4 mt-4 text-lg font-bold text-gray-900 bg-amber-400 rounded-lg hover:bg-amber-300 transition-colors uppercase tracking-wider flex justify-center items-center">
-                            <span>Đăng Ký Ngay</span>
+                        <button type="submit" id="btn-submit" class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition-all shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:scale-[1.01] active:scale-[0.99] uppercase tracking-wider flex justify-center items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            <span>Gửi Test Telegram</span>
                         </button>
                     </form>
-                    <p id="form-msg" class="text-sm text-center mt-4 hidden"></p>
+                    
+                    <p id="form-msg" class="text-xs text-center mt-4 hidden"></p>
+
+                    <!-- Real-time Console Log simulation -->
+                    <div class="mt-6 pt-4 border-t border-slate-800/80">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] text-slate-500 code-font uppercase">Console logs</span>
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-900 text-[11px] code-font text-cyan-500 space-y-1.5 max-h-[85px] overflow-y-auto">
+                            <div class="flex gap-2"><span class="text-slate-600">[SYS]:</span> Ready for webhook trigger.</div>
+                            <div id="log-msg" class="flex gap-2 text-indigo-400"><span class="text-slate-600">[BOT]:</span> Standing by on telegram.fedu.vn...</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <footer class="bg-black py-8 border-t border-gray-900 text-center">
-        <p class="text-gray-600 text-sm">© Báo Cáo Typography Masterclass - Phân tích bởi Chuyên gia.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-7xl mx-auto px-6 py-6 border-t border-slate-900/60 z-10 relative flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-slate-600 code-font">© Môi trường Test AI Web & Webhook Alert - fedu.vn</p>
+        <div class="flex gap-6 text-xs text-slate-500">
+            <a href="#" class="hover:text-slate-300 transition-colors">Telegram Webhook Docs</a>
+            <a href="#" class="hover:text-slate-300 transition-colors">Developer Portal</a>
+        </div>
     </footer>
 
     <script>
@@ -130,38 +169,48 @@
             
             const btn = document.getElementById('btn-submit');
             const msg = document.getElementById('form-msg');
+            const logMsg = document.getElementById('log-msg');
             const name = document.getElementById('f-name').value;
             const phone = document.getElementById('f-phone').value;
-            const email = document.getElementById('f-email').value;
+            const messageText = document.getElementById('f-email').value;
 
-            // Đổi trạng thái nút
-            btn.innerHTML = 'Đang xử lý...';
+            // Change button state
+            btn.innerHTML = 'Đang truyền gói tin...';
             btn.disabled = true;
             btn.classList.add('opacity-50');
-            msg.className = 'text-sm text-center mt-4 hidden';
+            msg.className = 'text-xs text-center mt-4 hidden';
+
+            // Log activity
+            const timestamp = new Date().toLocaleTimeString();
+            logMsg.innerHTML = `<span class="text-slate-600">[${timestamp}]:</span> Sending webhook payload...`;
 
             try {
-                // Fetch data gửi lên Google Apps Script
+                // Post payload
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    // Dùng text/plain để vượt qua rào cản CORS của trình duyệt khi fetch tới Google
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ name: name, phone: phone, email: email })
+                    body: JSON.stringify({ 
+                        name: name, 
+                        phone: phone, 
+                        email: messageText, // keeps compatibility with original script structure
+                        url: "https://videoviral.fedu.vn/ (Telegram Test)" 
+                    })
                 });
 
                 if (response.ok) {
-                    msg.innerHTML = '✅ Đăng ký thành công! Vui lòng kiểm tra Email.';
-                    msg.className = 'text-sm text-center mt-4 text-green-400 font-bold block';
-                    this.reset(); // Xóa trắng form
+                    msg.innerHTML = '✅ Tin nhắn đã được gửi qua Webhook thành công!';
+                    msg.className = 'text-xs text-center mt-4 text-emerald-400 font-bold block';
+                    logMsg.innerHTML = `<span class="text-slate-600">[${timestamp}]:</span> <span class="text-emerald-400">SUCCESS:</span> Payload delivered successfully.`;
+                    this.reset();
                 } else {
                     throw new Error('Network error');
                 }
             } catch (error) {
-                msg.innerHTML = '❌ Lỗi kết nối mạng, vui lòng thử lại sau.';
-                msg.className = 'text-sm text-center mt-4 text-red-400 font-bold block';
+                msg.innerHTML = '❌ Lỗi kết nối webhook. Vui lòng kiểm tra lại cấu hình.';
+                msg.className = 'text-xs text-center mt-4 text-rose-400 font-bold block';
+                logMsg.innerHTML = `<span class="text-slate-600">[${timestamp}]:</span> <span class="text-rose-400">ERROR:</span> Connection to script failed.`;
             } finally {
-                // Khôi phục nút
-                btn.innerHTML = 'Đăng Ký Ngay';
+                btn.innerHTML = 'Gửi Test Telegram';
                 btn.disabled = false;
                 btn.classList.remove('opacity-50');
             }
